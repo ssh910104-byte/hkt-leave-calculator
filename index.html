@@ -67,7 +67,7 @@ td, th { white-space: nowrap; }
 <body>
   <div class="wrap">
     <h1>HKT 연차 계산기</h1>
-    <div class="sub">현재 기준으로 아직 사용 가능한 월차와 연차만 계산합니다. 오래된 소멸 이력은 화면에서 제외합니다.</div>
+    <div class="sub">현재 기준으로 아직 사용 가능한 월차와 연차만 계산합니다. 소멸된 연차 내역은 &quot;소멸 연차 조회&quot;에서 조회 가능합니다.</div>
 
     <div class="grid">
       <div class="card">
@@ -78,29 +78,9 @@ td, th { white-space: nowrap; }
         <input type="date" id="baseDate" />
         <div class="small">기준일 현재 남아 있는 월차/연차만 표시합니다.</div>
 
-        <div class="checks">
-          <label class="check">
-            <input type="checkbox" id="assumePerfectMonthly" checked />
-            <span><strong>1년 미만 기간은 매월 개근으로 가정</strong><br />다만 기준일까지 이미 소멸된 월차는 화면에 표시하지 않습니다.</span>
-          </label>
-          <label class="check">
-            <input type="checkbox" id="assumeOver80" checked />
-            <span><strong>1년 이상은 출근율 80% 이상으로 가정</strong><br />체크 해제 시 1년 단위 15일/가산연차는 계산하지 않습니다.</span>
-          </label>
-        </div>
-
         <div class="btns">
           <button class="primary" id="calcBtn">계산하기</button>
           <button class="secondary" id="todayBtn">기준일 오늘로</button>
-        </div>
-
-        <div class="note">
-          <strong>안내</strong>
-          <ul>
-            <li>표시 연수 항목은 제거하고, 기준일 현재 유효한 연차만 보이도록 변경했습니다.</li>
-            <li>오래전 입사자의 경우 예전 월차까지 누적해서 보이지 않도록, 소멸된 월차와 연차는 화면에서 제외합니다.</li>
-            <li>첫 회계연도 비례연차는 계산 후 반차 사용을 위해 0.5 단위 올림 처리합니다.</li>
-          </ul>
         </div>
       </div>
 
@@ -185,9 +165,9 @@ td, th { white-space: nowrap; }
       return events.sort((a,b) => a.grantDate - b.grantDate);
     }
 
-    function buildRows(items, label){
+    function buildRows(items, label, emptyMessage){
       if(!items.length){
-        return `<tr><td colspan="7" style="text-align:center;color:#6b7280;">현재 기준 사용 가능한 ${label}가 없습니다.</td></tr>`;
+        return `<tr><td colspan="7" style="text-align:center;color:#6b7280;">${emptyMessage || `현재 기준 사용 가능한 ${label}가 없습니다.`}</td></tr>`;
       }
       return items.map((e, idx) => `
         <tr>
@@ -205,8 +185,8 @@ td, th { white-space: nowrap; }
     function render(){
       const hireValue = document.getElementById('hireDate').value;
       const baseValue = document.getElementById('baseDate').value;
-      const perfectMonthly = document.getElementById('assumePerfectMonthly').checked;
-      const over80 = document.getElementById('assumeOver80').checked;
+      const perfectMonthly = true;
+      const over80 = true;
       const summary = document.getElementById('summary');
       const resultArea = document.getElementById('resultArea');
 
@@ -315,7 +295,7 @@ td, th { white-space: nowrap; }
                         <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>월차</th>
                       </tr>
                     </thead>
-                    <tbody>${buildRows(expiredMonthlyEvents, '월차')}</tbody>
+                    <tbody>${buildRows(expiredMonthlyEvents, '월차', '소멸된 월차가 없습니다.')}</tbody>
                   </table>
                 </div>
               </div>
@@ -334,29 +314,12 @@ td, th { white-space: nowrap; }
                         <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>연차</th>
                       </tr>
                     </thead>
-                    <tbody>${buildRows(expiredYearlyEvents, '연차')}</tbody>
+                    <tbody>${buildRows(expiredYearlyEvents, '연차', '소멸된 연차가 없습니다.')}</tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="note">
-            <strong>소멸 조회 안내</strong>
-            <ul>
-              <li>이 탭에서는 기준일 이전에 이미 사용기한이 지나 소멸된 월차와 연차를 확인할 수 있습니다.</li>
-              <li>현재 사용 가능한 연차는 상단의 “현재 사용 가능” 탭에서 확인하세요.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>적용 방식</strong>
-          <ul>
-            <li>현재 사용 가능 탭은 기준일 현재 아직 사용 가능한 월차와 연차만 보여줍니다.</li>
-            <li>소멸 연차 조회 탭은 기준일 이전에 이미 소멸된 항목만 분리해서 보여줍니다.</li>
-            <li>첫 회계연도 비례연차는 0.5 단위 올림을 적용합니다.</li>
-          </ul>
         </div>
       `;
 
