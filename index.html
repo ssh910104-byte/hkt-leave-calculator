@@ -7,236 +7,80 @@
   <title>HKT 연차 계산기</title>
   <style>
     :root {
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent: #2563eb;
-      --accent-soft: #dbeafe;
-      --warn: #b45309;
-      --warn-soft: #fef3c7;
-      --green: #166534;
-      --green-soft: #dcfce7;
+      --bg: #f6f7fb; --card: #ffffff; --text: #1f2937; --muted: #6b7280; --line: #e5e7eb;
+      --accent: #2563eb; --accent-soft: #dbeafe; --green: #166534; --green-soft: #dcfce7;
+      --warn: #b45309; --warn-soft: #fef3c7;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .wrap { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 24px; }
     h1 { font-size: 30px; margin: 0 0 8px; }
     .sub { color: var(--muted); margin-bottom: 20px; }
-    .grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
-    }
-    .card h2 { margin-top: 0; font-size: 20px; }
-    label { display: block; font-weight: 600; margin: 14px 0 8px; }
-    input[type="date"], input[type="number"] {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      font-size: 15px;
-      background: #fff;
-    }
-    .checks {
-      display: grid;
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .check {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      background: #fff;
-    }
+    .grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04); }
+    .card h2 { margin: 0 0 14px; font-size: 20px; }
+    label { display: block; font-weight: 700; margin: 14px 0 8px; }
+    input[type="date"] { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; font-size: 15px; background: #fff; }
+    .checks { display: grid; gap: 12px; margin-top: 14px; }
+    .check { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; background: #fff; }
     .check input { margin-top: 4px; }
-    .btns {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .btns { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+    button { border: 0; border-radius: 12px; padding: 12px 16px; font-size: 15px; font-weight: 700; cursor: pointer; }
     .primary { background: var(--accent); color: #fff; }
     .secondary { background: #eef2ff; color: #3730a3; }
-    .pill {
-      display: inline-block;
-      border-radius: 999px;
-      padding: 6px 10px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .metric {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-    }
+    .pill { display: inline-block; border-radius: 999px; padding: 6px 10px; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .metric { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: #fff; }
     .metric .k { color: var(--muted); font-size: 13px; }
-    .metric .v { font-size: 26px; font-weight: 800; margin-top: 4px; }
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fff;
-      overflow: hidden;
-    }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      background: #fafafa;
-    }
-    .panel-header h3 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .badge {
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .badge.monthly {
-      background: var(--green-soft);
-      color: var(--green);
-    }
-    .badge.yearly {
-      background: var(--accent-soft);
-      color: var(--accent);
-    }
+    .metric .v { font-size: 28px; font-weight: 800; margin-top: 4px; }
+    .tabs { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+    .tab-btn { background:#eef2ff; color:#3730a3; }
+    .tab-btn.active { background: var(--accent); color:#fff; }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+    .panel { border: 1px solid var(--line); border-radius: 16px; background: #fff; overflow: hidden; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--line); background: #fafafa; }
+    .panel-header h3 { margin: 0; font-size: 18px; }
+    .badge { border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 700; }
+    .badge.monthly { background: var(--green-soft); color: var(--green); }
+    .badge.yearly { background: var(--accent-soft); color: var(--accent); }
     .panel-body { padding: 14px; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      background: #fff;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-      text-align: left;
-    }
+    .table-wrap { max-height: 420px; overflow: auto; border: 1px solid var(--line); border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; background: #fff; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
     th { background: #f9fafb; font-size: 13px; color: var(--muted); position: sticky; top: 0; }
     tr:last-child td { border-bottom: 0; }
-    .table-wrap {
-      max-height: 520px;
-      overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-    }
-    .note {
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--warn-soft);
-      color: var(--warn);
-      border: 1px solid #fde68a;
-      font-size: 14px;
-    }
+    .note { margin-top: 16px; padding: 14px; border-radius: 14px; background: var(--warn-soft); color: var(--warn); border: 1px solid #fde68a; font-size: 14px; }
     .small { color: var(--muted); font-size: 13px; }
-    .empty {
-      padding: 28px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 14px;
-      background: #fff;
-      margin-top: 14px;
-    }
+    .empty { padding: 28px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 14px; background: #fff; margin-top: 14px; }
     ul { margin: 8px 0 0 18px; padding: 0; }
-    @media (max-width: 1100px) {
-      .grid { grid-template-columns: 1fr; }
-      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .split { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .wrap { padding: 14px; }
-      .summary { grid-template-columns: 1fr; }
-      .metric .v { font-size: 24px; }
-      table { font-size: 13px; }
-      th, td { padding: 8px 6px; }
-    }
+    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .split { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .wrap { padding: 14px; } .summary { grid-template-columns: 1fr; } .metric .v { font-size: 24px; } table { font-size: 13px; } th, td { padding: 8px 6px; } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>HKT 연차 계산기</h1>
-    <div class="sub">1년차는 입사일 기준으로 계산하고, 첫 연차 발생 이후부터는 회사 회계연도(매년 7월 1일) 기준으로 연차 발생 시점, 발생 개수, 사용기한을 계산합니다.</div>
+    <div class="sub">현재 기준으로 아직 사용 가능한 월차와 연차만 계산합니다. 오래된 소멸 이력은 화면에서 제외합니다.</div>
 
     <div class="grid">
       <div class="card">
         <h2>입력</h2>
-
         <label for="hireDate">입사일</label>
         <input type="date" id="hireDate" />
-
         <label for="baseDate">기준일</label>
         <input type="date" id="baseDate" />
-        <div class="small">기준일까지 발생한 연차를 요약합니다.</div>
-
-        <label for="yearsToShow">표시 연수</label>
-        <input type="number" id="yearsToShow" min="1" max="40" value="6" />
+        <div class="small">기준일 현재 남아 있는 월차/연차만 표시합니다.</div>
 
         <div class="checks">
           <label class="check">
             <input type="checkbox" id="assumePerfectMonthly" checked />
-            <span>
-              <strong>1년 미만 기간은 매월 개근으로 가정</strong><br />
-              1개월 개근 시 1일 발생 규정을 모두 반영합니다.
-            </span>
+            <span><strong>1년 미만 기간은 매월 개근으로 가정</strong><br />다만 기준일까지 이미 소멸된 월차는 화면에 표시하지 않습니다.</span>
           </label>
-
           <label class="check">
             <input type="checkbox" id="assumeOver80" checked />
-            <span>
-              <strong>1년 이상은 출근율 80% 이상으로 가정</strong><br />
-              체크 해제 시 1년 단위 15일/가산연차는 계산하지 않습니다.
-            </span>
+            <span><strong>1년 이상은 출근율 80% 이상으로 가정</strong><br />체크 해제 시 1년 단위 15일/가산연차는 계산하지 않습니다.</span>
           </label>
         </div>
 
@@ -246,12 +90,11 @@
         </div>
 
         <div class="note">
-          <strong>주의</strong>
+          <strong>안내</strong>
           <ul>
-            <li>이 계산기는 회사 규정에 맞춰 1년차는 입사일 기준, 이후에는 회계연도(매년 7월 1일) 기준으로 계산하는 참고용 도구입니다.</li>
-            <li>최초 1년 근속으로 발생한 연차 15일과 1년차 월차는 가장 가까운 회계연도 연차의 사용기한과 동일하게 처리합니다.</li>
-            <li>첫 회계연도분은 “발생연차 × 해당기간 ÷ 365”로 비례계산하고, 결과값은 반차 사용을 위해 0.5 단위로 올림 처리합니다.</li>
-            <li>예: 2024-05-27 입사자는 2025-07-01에 15 × 35 ÷ 365 = 1.44일 → 1.5일로 표시됩니다.</li>
+            <li>표시 연수 항목은 제거하고, 기준일 현재 유효한 연차만 보이도록 변경했습니다.</li>
+            <li>오래전 입사자의 경우 예전 월차까지 누적해서 보이지 않도록, 소멸된 월차와 연차는 화면에서 제외합니다.</li>
+            <li>첫 회계연도 비례연차는 계산 후 반차 사용을 위해 0.5 단위 올림 처리합니다.</li>
           </ul>
         </div>
       </div>
@@ -259,206 +102,110 @@
       <div class="card">
         <div class="pill">계산 결과</div>
         <div id="summary" class="summary"></div>
-        <div id="resultArea"></div>
+        <div class="tabs">
+  <button class="tab-btn active" id="tabCurrentBtn" type="button">현재 사용 가능</button>
+  <button class="tab-btn" id="tabExpiredBtn" type="button">소멸 연차 조회</button>
+</div>
+<div id="resultArea"></div>
       </div>
     </div>
   </div>
 
   <script>
-    function pad(n) {
-      return String(n).padStart(2, '0');
-    }
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function formatDate(date){ return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`; }
+    function parseDate(value){ const [y,m,d] = value.split('-').map(Number); return new Date(y,m-1,d); }
+    function addDays(date,days){ const d = new Date(date); d.setDate(d.getDate()+days); return d; }
+    function addMonths(date,months){ const d = new Date(date); const originalDay = d.getDate(); d.setDate(1); d.setMonth(d.getMonth()+months); const lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); d.setDate(Math.min(originalDay, lastDay)); return d; }
+    function addYears(date,years){ const d = new Date(date); const month = d.getMonth(); d.setFullYear(d.getFullYear()+years); if(d.getMonth() !== month) d.setDate(0); return d; }
+    function diffDays(a,b){ return Math.floor((b.getTime()-a.getTime())/86400000); }
+    function daysInPeriodInclusive(startDate,endDate){ return diffDays(startDate, addDays(endDate,1)); }
+    function startOfFiscalYear(year){ return new Date(year,6,1); }
+    function firstFiscalGrantOnOrAfter(date){ const y = date.getFullYear(); const fy = startOfFiscalYear(y); return date <= fy ? fy : startOfFiscalYear(y+1); }
+    function fiscalUseByFromGrant(grantDate){ return addDays(startOfFiscalYear(grantDate.getFullYear()+1), -1); }
+    function completedYearsOn(date, hireDate){ let years = date.getFullYear()-hireDate.getFullYear(); const anniversaryThisYear = addYears(hireDate, years); if(date < anniversaryThisYear) years -= 1; return Math.max(0, years); }
+    function leaveDaysAfterFirstYear(completedYears){ if(completedYears < 1) return 0; const extra = completedYears >= 3 ? Math.floor((completedYears - 1)/2) : 0; return Math.min(15 + extra, 25); }
+    function ceilHalf(value){ return Math.ceil(value * 2) / 2; }
+    function formatDays(value){ const rounded = Math.round(value * 10) / 10; return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1); }
+    function sumDays(items){ return items.reduce((sum,e) => sum + e.days, 0); }
 
-    function formatDate(date) {
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-    }
-
-    function parseDate(value) {
-      const [y, m, d] = value.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    function addMonths(date, months) {
-      const d = new Date(date);
-      const originalDay = d.getDate();
-      d.setDate(1);
-      d.setMonth(d.getMonth() + months);
-      const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-      d.setDate(Math.min(originalDay, lastDay));
-      return d;
-    }
-
-    function addYears(date, years) {
-      const d = new Date(date);
-      const month = d.getMonth();
-      d.setFullYear(d.getFullYear() + years);
-      if (d.getMonth() !== month) d.setDate(0);
-      return d;
-    }
-
-    function addDays(date, days) {
-      const d = new Date(date);
-      d.setDate(d.getDate() + days);
-      return d;
-    }
-
-    function diffDays(a, b) {
-      const ms = b.getTime() - a.getTime();
-      return Math.floor(ms / 86400000);
-    }
-
-    function daysInPeriodInclusive(startDate, endDate) {
-      return diffDays(startDate, addDays(endDate, 1));
-    }
-
-    function startOfFiscalYear(year) {
-      return new Date(year, 6, 1);
-    }
-
-    function firstFiscalGrantOnOrAfter(date) {
-      const y = date.getFullYear();
-      const fy = startOfFiscalYear(y);
-      return date <= fy ? fy : startOfFiscalYear(y + 1);
-    }
-
-    function fiscalUseByFromGrant(grantDate) {
-      return addDays(startOfFiscalYear(grantDate.getFullYear() + 1), -1);
-    }
-
-    function completedYearsOn(date, hireDate) {
-      let years = date.getFullYear() - hireDate.getFullYear();
-      const anniversaryThisYear = addYears(hireDate, years);
-      if (date < anniversaryThisYear) years -= 1;
-      return Math.max(0, years);
-    }
-
-    function leaveDaysAfterFirstYear(completedYears) {
-      if (completedYears < 1) return 0;
-      const extra = completedYears >= 3 ? Math.floor((completedYears - 1) / 2) : 0;
-      return Math.min(15 + extra, 25);
-    }
-
-    function ceilHalf(value) {
-      return Math.ceil(value * 2) / 2;
-    }
-
-    function formatDays(value) {
-      const rounded = ceilHalf(value);
-      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
-    }
-
-    function generateLeaveEvents(hireDate, yearsToShow, perfectMonthly, over80) {
+    function generateAllLeaveEvents(hireDate, perfectMonthly, over80, baseDate){
       const events = [];
-      const firstAnniversary = addYears(hireDate, 1);
-      const endLimit = addYears(hireDate, yearsToShow + 2);
+      const firstAnniversary = addYears(hireDate,1);
       const firstFiscalGrant = firstFiscalGrantOnOrAfter(firstAnniversary);
       const firstFiscalUseBy = fiscalUseByFromGrant(firstFiscalGrant);
+      const endYear = baseDate.getFullYear() + 1;
 
-      if (perfectMonthly) {
-        for (let i = 1; i <= 11; i++) {
-          const periodStart = addMonths(hireDate, i - 1);
+      const monthlyEligibleDate = new Date(2018,4,29);
+      if(perfectMonthly && hireDate >= monthlyEligibleDate){
+        for(let i=1; i<=11; i++){
+          const periodStart = addMonths(hireDate, i-1);
           const periodEnd = addDays(addMonths(hireDate, i), -1);
           const grantDate = addMonths(hireDate, i);
           events.push({
-            category: '월차',
-            type: '월차',
-            periodStart,
-            periodEnd,
-            grantDate,
-            days: 1,
-            useBy: new Date(firstFiscalUseBy),
-            note: `${i}개월 개근 가정. 회사 규정에 따라 첫 연차와 동일하게 ${formatDate(firstFiscalUseBy)}까지 사용`
+            category:'월차', type:'월차', periodStart, periodEnd, grantDate, days:1, useBy:new Date(firstFiscalUseBy)
           });
         }
       }
 
-      if (over80) {
+      if(over80){
         events.push({
-          category: '연차',
-          type: '1년차 연차',
-          periodStart: new Date(hireDate),
-          periodEnd: addDays(firstAnniversary, -1),
-          grantDate: new Date(firstAnniversary),
-          days: 15,
-          useBy: new Date(firstFiscalUseBy),
-          note: `법정 사용기한은 ${formatDate(addYears(firstAnniversary, 1))}이나, 회사 규정에 따라 가장 가까운 회계연도 연차 사용기한인 ${formatDate(firstFiscalUseBy)}까지 사용`
+          category:'연차', type:'1년차 연차', periodStart:new Date(hireDate), periodEnd:addDays(firstAnniversary,-1),
+          grantDate:new Date(firstAnniversary), days:15, useBy:new Date(firstFiscalUseBy)
         });
 
-        if (firstFiscalGrant <= endLimit) {
-          const prorateStart = new Date(firstAnniversary);
-          const prorateEnd = addDays(firstFiscalGrant, -1);
-          const prorateDaysCount = daysInPeriodInclusive(prorateStart, prorateEnd);
-          const proratedDays = 15 * prorateDaysCount / 365;
-          if (prorateDaysCount > 0) {
-            events.push({
-              category: '연차',
-              type: '첫 회계연도 비례연차',
-              periodStart: prorateStart,
-              periodEnd: prorateEnd,
-              grantDate: new Date(firstFiscalGrant),
-              days: proratedDays,
-              useBy: new Date(firstFiscalUseBy),
-              note: `15일 × ${prorateDaysCount}일 ÷ 365 비례계산 후 0.5 단위 올림 적용, ${formatDate(firstFiscalUseBy)}까지 사용`
-            });
-          }
+        const prorateStart = new Date(firstAnniversary);
+        const prorateEnd = addDays(firstFiscalGrant, -1);
+        const prorateDaysCount = daysInPeriodInclusive(prorateStart, prorateEnd);
+        if(prorateDaysCount > 0){
+          events.push({
+            category:'연차', type:'첫 회계연도 비례연차', periodStart:prorateStart, periodEnd:prorateEnd,
+            grantDate:new Date(firstFiscalGrant), days:ceilHalf(15 * prorateDaysCount / 365), useBy:new Date(firstFiscalUseBy)
+          });
         }
 
-        for (let year = firstFiscalGrant.getFullYear() + 1; year <= endLimit.getFullYear(); year++) {
+        for(let year = firstFiscalGrant.getFullYear()+1; year <= endYear; year++){
           const fiscalGrantDate = startOfFiscalYear(year);
-          if (fiscalGrantDate > endLimit) continue;
           const completedYears = completedYearsOn(fiscalGrantDate, hireDate);
           const days = leaveDaysAfterFirstYear(completedYears);
-          if (days > 0) {
+          if(days > 0){
             events.push({
-              category: '연차',
-              type: '회계연도 연차',
-              periodStart: new Date(fiscalGrantDate),
-              periodEnd: addDays(startOfFiscalYear(year + 1), -1),
-              grantDate: new Date(fiscalGrantDate),
-              days,
-              useBy: addDays(startOfFiscalYear(year + 1), -1),
-              note: `매년 7월 1일 회계연도 기준 발생 (부여 시점 기준 근속 ${completedYears}년)`
+              category:'연차', type:'회계연도 연차', periodStart:new Date(fiscalGrantDate),
+              periodEnd:addDays(startOfFiscalYear(year+1), -1), grantDate:new Date(fiscalGrantDate),
+              days, useBy:addDays(startOfFiscalYear(year+1), -1)
             });
           }
         }
       }
-
-      events.sort((a, b) => a.grantDate - b.grantDate || a.days - b.days);
-      return events;
+      return events.sort((a,b) => a.grantDate - b.grantDate);
     }
 
-    function sumDays(items) {
-      return items.reduce((sum, e) => sum + e.days, 0);
-    }
-
-    function buildTableRows(items) {
-      if (!items.length) {
-        return '<tr><td colspan="6" style="text-align:center;color:#6b7280;">해당 항목이 없습니다.</td></tr>';
+    function buildRows(items, label){
+      if(!items.length){
+        return `<tr><td colspan="7" style="text-align:center;color:#6b7280;">현재 기준 사용 가능한 ${label}가 없습니다.</td></tr>`;
       }
       return items.map((e, idx) => `
         <tr>
-          <td>${idx + 1}</td>
+          <td>${idx+1}</td>
           <td>${e.type}</td>
           <td>${formatDate(e.periodStart)}</td>
           <td>${formatDate(e.periodEnd)}</td>
           <td>${formatDate(e.grantDate)}</td>
           <td>${formatDate(e.useBy)}</td>
           <td>${formatDays(e.days)}개</td>
-          
         </tr>
       `).join('');
     }
 
-    function render() {
+    function render(){
       const hireValue = document.getElementById('hireDate').value;
       const baseValue = document.getElementById('baseDate').value;
-      const yearsToShow = Number(document.getElementById('yearsToShow').value || 6);
       const perfectMonthly = document.getElementById('assumePerfectMonthly').checked;
       const over80 = document.getElementById('assumeOver80').checked;
       const summary = document.getElementById('summary');
       const resultArea = document.getElementById('resultArea');
 
-      if (!hireValue || !baseValue) {
+      if(!hireValue || !baseValue){
         summary.innerHTML = '';
         resultArea.innerHTML = '<div class="empty">입사일과 기준일을 입력해 주세요.</div>';
         return;
@@ -466,106 +213,173 @@
 
       const hireDate = parseDate(hireValue);
       const baseDate = parseDate(baseValue);
-      if (baseDate < hireDate) {
+      if(baseDate < hireDate){
         summary.innerHTML = '';
         resultArea.innerHTML = '<div class="empty">기준일은 입사일보다 빠를 수 없습니다.</div>';
         return;
       }
 
-      const events = generateLeaveEvents(hireDate, yearsToShow, perfectMonthly, over80);
-      const monthlyEvents = events.filter(e => e.category === '월차');
-      const yearlyEvents = events.filter(e => e.category === '연차');
-      const accrued = events.filter(e => e.grantDate <= baseDate);
-      const usable = accrued.filter(e => e.useBy >= baseDate);
-      const expired = accrued.filter(e => e.useBy < baseDate);
+      const allEvents = generateAllLeaveEvents(hireDate, perfectMonthly, over80, baseDate);
+      const accruedEvents = allEvents.filter(e => e.grantDate <= baseDate);
+      const currentEvents = accruedEvents.filter(e => e.useBy >= baseDate);
+      const expiredEvents = accruedEvents.filter(e => e.useBy < baseDate);
 
-      const totalAccrued = sumDays(accrued);
-      const totalUsable = sumDays(usable);
-      const totalExpired = sumDays(expired);
-      const monthlyAccrued = sumDays(monthlyEvents.filter(e => e.grantDate <= baseDate));
-      const yearlyAccrued = sumDays(yearlyEvents.filter(e => e.grantDate <= baseDate));
+      const monthlyEvents = currentEvents.filter(e => e.category === '월차');
+      const yearlyEvents = currentEvents.filter(e => e.category === '연차');
+      const expiredMonthlyEvents = expiredEvents.filter(e => e.category === '월차');
+      const expiredYearlyEvents = expiredEvents.filter(e => e.category === '연차');
+
+      const totalCurrent = sumDays(currentEvents);
+      const monthlyCurrent = sumDays(monthlyEvents);
+      const yearlyCurrent = sumDays(yearlyEvents);
+      const totalExpired = sumDays(expiredEvents);
+      const monthlyExpired = sumDays(expiredMonthlyEvents);
+      const yearlyExpired = sumDays(expiredYearlyEvents);
 
       const tenureDays = diffDays(hireDate, baseDate);
       const tenureYears = (tenureDays / 365.2425).toFixed(2);
 
       summary.innerHTML = `
-        <div class="metric"><div class="k">기준일까지 누적 발생</div><div class="v">${formatDays(totalAccrued)}일</div></div>
-        <div class="metric"><div class="k">기준일 현재 사용 가능</div><div class="v">${formatDays(totalUsable)}일</div></div>
-        <div class="metric"><div class="k">월차 누적 발생</div><div class="v">${formatDays(monthlyAccrued)}일</div></div>
-        <div class="metric"><div class="k">연차 누적 발생</div><div class="v">${formatDays(yearlyAccrued)}일</div></div>
+        <div class="metric"><div class="k">기준일 현재 사용 가능</div><div class="v">${formatDays(totalCurrent)}일</div></div>
+        <div class="metric"><div class="k">현재 사용 가능 월차</div><div class="v">${formatDays(monthlyCurrent)}일</div></div>
+        <div class="metric"><div class="k">현재 사용 가능 연차</div><div class="v">${formatDays(yearlyCurrent)}일</div></div>
+        <div class="metric"><div class="k">소멸 연차 합계</div><div class="v">${formatDays(totalExpired)}일</div></div>
       `;
 
       resultArea.innerHTML = `
-        <div class="small">재직일수: ${tenureDays}일 / 재직연수(참고): ${tenureYears}년</div>
-        <div class="small" style="margin-top:6px;">소멸 연차: ${formatDays(totalExpired)}일</div>
+        <div id="tabCurrent" class="tab-content active">
+          <div class="small">재직일수: ${tenureDays}일 / 재직연수(참고): ${tenureYears}년</div>
+          <div class="small" style="margin-top:6px;">현재 기준 유효한 항목만 표에 표시됩니다.</div>
 
-        <div class="split">
-          <div class="panel">
-            <div class="panel-header">
-              <h3>월차 내역</h3>
-              <span class="badge monthly">월차 ${formatDays(sumDays(monthlyEvents))}일</span>
+          <div class="split">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>현재 사용 가능한 월차</h3>
+                <span class="badge monthly">월차 ${formatDays(monthlyCurrent)}일</span>
+              </div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>월차</th>
+                      </tr>
+                    </thead>
+                    <tbody>${buildRows(monthlyEvents, '월차')}</tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div class="panel-body">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>구분</th>
-                      <th>시작일</th>
-                      <th>종료일</th>
-                      <th>발생일</th>
-                      <th>사용기한</th>
-                      <th>월차</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>${buildTableRows(monthlyEvents)}</tbody>
-                </table>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>현재 사용 가능한 연차</h3>
+                <span class="badge yearly">연차 ${formatDays(yearlyCurrent)}일</span>
+              </div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>연차</th>
+                      </tr>
+                    </thead>
+                    <tbody>${buildRows(yearlyEvents, '연차')}</tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tabExpired" class="tab-content">
+          <div class="small">기준일 이전에 이미 사용기한이 지난 항목만 표시됩니다.</div>
+          <div class="small" style="margin-top:6px;">소멸 합계: ${formatDays(totalExpired)}일 (월차 ${formatDays(monthlyExpired)}일 / 연차 ${formatDays(yearlyExpired)}일)</div>
+
+          <div class="split">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>소멸된 월차</h3>
+                <span class="badge monthly">월차 ${formatDays(monthlyExpired)}일</span>
+              </div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>월차</th>
+                      </tr>
+                    </thead>
+                    <tbody>${buildRows(expiredMonthlyEvents, '월차')}</tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>소멸된 연차</h3>
+                <span class="badge yearly">연차 ${formatDays(yearlyExpired)}일</span>
+              </div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>No.</th><th>구분</th><th>시작일</th><th>종료일</th><th>발생일</th><th>사용기한</th><th>연차</th>
+                      </tr>
+                    </thead>
+                    <tbody>${buildRows(expiredYearlyEvents, '연차')}</tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="panel">
-            <div class="panel-header">
-              <h3>연차 내역</h3>
-              <span class="badge yearly">연차 ${formatDays(sumDays(yearlyEvents))}일</span>
-            </div>
-            <div class="panel-body">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>구분</th>
-                      <th>시작일</th>
-                      <th>종료일</th>
-                      <th>발생일</th>
-                      <th>사용기한</th>
-                      <th>연차</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>${buildTableRows(yearlyEvents)}</tbody>
-                </table>
-              </div>
-            </div>
+          <div class="note">
+            <strong>소멸 조회 안내</strong>
+            <ul>
+              <li>이 탭에서는 기준일 이전에 이미 사용기한이 지나 소멸된 월차와 연차를 확인할 수 있습니다.</li>
+              <li>현재 사용 가능한 연차는 상단의 “현재 사용 가능” 탭에서 확인하세요.</li>
+            </ul>
           </div>
         </div>
 
         <div class="note">
-          <strong>해석 안내</strong>
+          <strong>적용 방식</strong>
           <ul>
-            <li>월차와 연차를 화면에서 분리해 각각 따로 확인할 수 있도록 구성했습니다.</li>
-            <li>1년차 월차는 매월 개근 가정으로 계산하되, 사용기한은 첫 연차 발생분과 동일하게 가장 가까운 회계연도 연차의 사용기한까지 연장합니다.</li>
-            <li>최초 1년 근속으로 발생한 15일 연차도 같은 방식으로 가장 가까운 회계연도 연차의 사용기한까지 사용할 수 있도록 계산했습니다.</li>
-            <li>첫 회계연도 비례연차는 계산 후 반차 사용을 위해 0.5 단위 올림 처리합니다.</li>
+            <li>현재 사용 가능 탭은 기준일 현재 아직 사용 가능한 월차와 연차만 보여줍니다.</li>
+            <li>소멸 연차 조회 탭은 기준일 이전에 이미 소멸된 항목만 분리해서 보여줍니다.</li>
+            <li>첫 회계연도 비례연차는 0.5 단위 올림을 적용합니다.</li>
           </ul>
         </div>
       `;
+
+      bindTabs();
     }
 
-    function todayLocal() {
+    function bindTabs(){
+      const currentBtn = document.getElementById('tabCurrentBtn');
+      const expiredBtn = document.getElementById('tabExpiredBtn');
+      const currentTab = document.getElementById('tabCurrent');
+      const expiredTab = document.getElementById('tabExpired');
+      if(!currentBtn || !expiredBtn || !currentTab || !expiredTab) return;
+
+      currentBtn.onclick = () => {
+        currentBtn.classList.add('active');
+        expiredBtn.classList.remove('active');
+        currentTab.classList.add('active');
+        expiredTab.classList.remove('active');
+      };
+      expiredBtn.onclick = () => {
+        expiredBtn.classList.add('active');
+        currentBtn.classList.remove('active');
+        expiredTab.classList.add('active');
+        currentTab.classList.remove('active');
+      };
+    }
+
+    function todayLocal(){
       const d = new Date();
       return formatDate(new Date(d.getFullYear(), d.getMonth(), d.getDate()));
     }
