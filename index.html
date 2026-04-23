@@ -433,7 +433,7 @@
 
     function buildTableRows(items) {
       if (!items.length) {
-        return '<tr><td colspan="7" style="text-align:center;color:#6b7280;">해당 항목이 없습니다.</td></tr>';
+        return '<tr><td colspan="6" style="text-align:center;color:#6b7280;">해당 항목이 없습니다.</td></tr>';
       }
       return items.map((e, idx) => `
         <tr>
@@ -444,7 +444,7 @@
           <td>${formatDate(e.grantDate)}</td>
           <td>${formatDate(e.useBy)}</td>
           <td>${formatDays(e.days)}개</td>
-          <td>${e.note}</td>
+          
         </tr>
       `).join('');
     }
@@ -517,7 +517,7 @@
                       <th>발생일</th>
                       <th>사용기한</th>
                       <th>월차</th>
-                      <th>비고</th>
+                      
                     </tr>
                   </thead>
                   <tbody>${buildTableRows(monthlyEvents)}</tbody>
@@ -543,7 +543,7 @@
                       <th>발생일</th>
                       <th>사용기한</th>
                       <th>연차</th>
-                      <th>비고</th>
+                      
                     </tr>
                   </thead>
                   <tbody>${buildTableRows(yearlyEvents)}</tbody>
