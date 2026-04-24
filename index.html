@@ -17,6 +17,7 @@
     h1 { font-size: 30px; margin: 0 0 8px; }
     .sub { color: var(--muted); margin-bottom: 20px; }
     .grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+    .left-col { display: grid; gap: 18px; align-items: start; }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04); }
     .card h2 { margin: 0 0 14px; font-size: 20px; }
     label { display: block; font-weight: 700; margin: 14px 0 8px; }
@@ -70,17 +71,28 @@ td, th { white-space: nowrap; }
     <div class="sub">현재 기준으로 아직 사용 가능한 월차와 연차만 계산합니다. 소멸된 연차 내역은 &quot;소멸 연차 조회&quot;에서 조회 가능합니다.</div>
 
     <div class="grid">
-      <div class="card">
-        <h2>입력</h2>
-        <label for="hireDate">입사일</label>
-        <input type="date" id="hireDate" />
-        <label for="baseDate">기준일</label>
-        <input type="date" id="baseDate" />
-        <div class="small">기준일 현재 남아 있는 월차/연차만 표시합니다.</div>
+      <div class="left-col">
+        <div class="card">
+          <h2>입력</h2>
+          <label for="hireDate">입사일</label>
+          <input type="date" id="hireDate" />
+          <label for="baseDate">기준일</label>
+          <input type="date" id="baseDate" />
+          <div class="small">기준일 현재 남아 있는 월차/연차만 표시합니다.</div>
 
-        <div class="btns">
-          <button class="primary" id="calcBtn">계산하기</button>
-          <button class="secondary" id="todayBtn">기준일 오늘로</button>
+          <div class="btns">
+            <button class="primary" id="calcBtn">계산하기</button>
+            <button class="secondary" id="todayBtn">기준일 오늘로</button>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>[안내]</strong>
+          <ul>
+            <li>월차는 1개월 개근 기준으로 산정하였습니다.</li>
+            <li>연차는 1년간 80%이상 출근율 기준으로 산정하였습니다.</li>
+          </ul>
+          <div style="margin-top:8px;">※ 결근, 휴직, 등으로 출근율이 80%미만인 경우는 소속 사업장 담당자에게 문의해 주시기 바랍니다.</div>
         </div>
       </div>
 
